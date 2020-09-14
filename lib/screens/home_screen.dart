@@ -23,6 +23,36 @@ void saveToFileSystem() {
 //String serialized = jsonEncode(tasks);
 }
 
+void _settingModalBottomSheet(context) {
+  showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          child: new Wrap(
+            children: <Widget>[
+              new ListTile(
+                  leading: new Icon(Icons.brightness_1, color: Colors.red),
+                  title: new Text('Upcoming'),
+                  onTap: () => {}),
+              new ListTile(
+                leading: new Icon(Icons.brightness_1, color: Colors.yellow),
+                title: new Text('In Progress'),
+                onTap: () => {},
+              ),
+              new ListTile(
+                leading: new Icon(
+                  Icons.brightness_1,
+                  color: Colors.green,
+                ),
+                title: new Text('Completed'),
+                onTap: () => {},
+              ),
+            ],
+          ),
+        );
+      });
+}
+
 List<Task> deserializeJSONTaskList(String json) {
   print(jsonDecode(json));
   List listOfMaps = jsonDecode(json);
@@ -163,12 +193,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           caption: 'More',
                           color: Colors.black45,
                           icon: Icons.more_horiz,
+                          onTap: () {},
                           //onTap: () => SnackBar(content: Text('More')),
+                        ),
+                        IconSlideAction(
+                          caption: 'Archive',
+                          color: Colors.blueGrey,
+                          icon: Icons.archive,
+                          onTap: () {},
+                          //onTap: () => _showSnackBar('Delete'),
                         ),
                         IconSlideAction(
                           caption: 'Delete',
                           color: Colors.red,
                           icon: Icons.delete,
+                          onTap: () {},
                           //onTap: () => _showSnackBar('Delete'),
                         ),
                       ],
@@ -194,8 +233,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         title: Text(listOfTasks[index].name),
                         subtitle: Text(listOfTasks[index].date),
-                        trailing: Text(
-                          listOfTasks[index].progress,
+                        trailing: IconButton(
+                          icon: Icon(Icons.brightness_1),
+                          color: Colors.red,
+                          onPressed: () {
+                            _settingModalBottomSheet(context);
+                          },
                         ),
                       ));
                 }),
