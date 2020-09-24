@@ -27,16 +27,4 @@ class Task {
       "String assignedTo": assignedTo
     };
   }
-
-  // Whenever youre making a new Task, you can initialize
-  // the task with empty components
-  // Task(this.name, this.date, this.description, this.location, this.assignedTo) {
-  //   name = "";
-  //   date = "";
-  //   description = "";
-  //   location = "";
-  //   assignedTo = "";
-  //   //taskList.add(Task(name, date, description, location, assignedTo));
-  // }
-
 }

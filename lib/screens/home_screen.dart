@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:project_senior/models/task.dart';
 
-import 'package:flutter/material.dart';
 import 'package:project_senior/screens/add_task_screen.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:project_senior/screens/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -17,10 +19,6 @@ class HomeScreen extends StatefulWidget {
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
-}
-
-void saveToFileSystem() {
-//String serialized = jsonEncode(tasks);
 }
 
 void _settingModalBottomSheet(context) {
@@ -83,15 +81,24 @@ void loadFromFileSystem() {}
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Task> listOfTasks;
+  List data = [];
+
+  void fetchData() async {
+    final response = await http
+        .get('https://paradisial-pointers.000webhostapp.com/fetch_data.php');
+
+    if (response.statusCode == 200) {
+      setState(() {
+        data = json.decode(response.body);
+      });
+    }
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
+    getData();
+    fetchData();
     super.initState();
-    listOfTasks = [];
-    loadFromFileSystem();
-
-    //tasks = deserializeJSONTaskList(serialized);
   }
 
   @override
@@ -139,7 +146,12 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.search),
               iconSize: 40,
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                )
+              },
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(5, 90, 0, 40),
@@ -147,47 +159,30 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.add_circle_outline),
               iconSize: 40,
-              onPressed: () async {
-                Task y = await Navigator.push(
+              onPressed: () {
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AddTaskScreen()),
                 );
+                // Task t = Task(y.name, y.date, y.location, y.assignedTo,
+                //     y.description, "Upcoming");
 
-                Task t = Task(y.name, y.date, y.location, y.assignedTo,
-                    y.description, "Upcoming");
-
-                print(y.name);
-
-                //add it to the list of tasks
-                listOfTasks.add(t);
-                print(listOfTasks[0].name);
-                setState(() {});
-
-                saveToFileSystem();
+                // print(y.name);
+                // //add it to the list of tasks
+                // listOfTasks.add(t);
+                // setState(() {});
+                print(data.length);
               },
             ),
           ]),
           Expanded(
             child: ListView.builder(
-                itemCount: listOfTasks.length,
-                itemBuilder: (context, index) {
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
                   return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.25,
-                      actions: <Widget>[
-                        IconSlideAction(
-                          caption: 'Archive',
-                          color: Colors.blue,
-                          icon: Icons.archive,
-                          //onTap: () => _showSnackBar('Archive'),
-                        ),
-                        IconSlideAction(
-                          caption: 'Share',
-                          color: Colors.indigo,
-                          icon: Icons.share,
-                          //onTap: () => _showSnackBar('Share'),
-                        ),
-                      ],
+                      actions: <Widget>[],
                       secondaryActions: <Widget>[
                         IconSlideAction(
                           caption: 'More',
@@ -208,31 +203,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.red,
                           icon: Icons.delete,
                           onTap: () {},
-                          //onTap: () => _showSnackBar('Delete'),
                         ),
                       ],
                       child: ListTile(
-                        key: Key(listOfTasks[index].name),
-                        // onDismissed: (direction) {
-                        //   setState(() {
-                        //     listOfTasks.removeAt(index);
-                        //   });
-                        //   Scaffold.of(context).showSnackBar(SnackBar(
-                        //       content: Text(
-                        //           "${listOfTasks[index].name} dismissed")));
-                        // },
-                        // background: Container(color: Colors.red),
-                        // child: CheckboxListTile(
-                        //   title: Text(listOfTasks[index].name),
-                        //   value: false,
-                        //   onChanged: (bool b) {
-                        //     //listOfTasks[index].completed = b;
-                        //     setState(() {});
-                        //   },
-                        // ))
-
-                        title: Text(listOfTasks[index].name),
-                        subtitle: Text(listOfTasks[index].date),
+                        key: Key(data[index]['name']),
+                        title: Text(data[index]['name']),
+                        subtitle: Text(data[index]['date']),
                         trailing: IconButton(
                           icon: Icon(Icons.brightness_1),
                           color: Colors.red,
@@ -273,5 +249,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     ));
+  }
+
+  Future getData() async {
+    var url = 'https://paradisial-pointers.000webhostapp.com/fetch_data.php';
+    http.Response response = await http.get(url);
+    var d = jsonDecode(response.body);
+    print(d.toString());
   }
 }

@@ -1,18 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project_senior/models/task.dart';
 
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:project_senior/screens/home_screen.dart';
-//import 'package:project_senior/screens/recommended_screen.dart';
+import 'package:flutter/material.dart';
 
-class AddTaskScreen extends StatefulWidget {
+class UpdateTaskScreen extends StatefulWidget {
+  UpdateTaskScreen({Key key, this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  _AddTaskScreenState createState() => _AddTaskScreenState();
+  _UpdateTaskScreen createState() => _UpdateTaskScreen();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
+class Task {
+  String name;
+  String location;
+  String description;
+  String date;
+  String progress;
+  String assignedTo;
+
+  Task(this.name, this.date, this.description, this.location, this.assignedTo,
+      this.progress);
+}
+
+class _UpdateTaskScreen extends State<UpdateTaskScreen> {
   TextEditingController taskName = TextEditingController();
   TextEditingController taskTime = TextEditingController();
   TextEditingController taskAssignedTo = TextEditingController();
@@ -20,23 +34,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   TextEditingController taskLocation = TextEditingController();
   //TextEditingController taskProgress = TextEditingController();
 
-  Future<List> senddata() async {
-    final response = await http.post(
-        "https://paradisial-pointers.000webhostapp.com/insertdata.php",
-        body: {
-          "name": taskName.text,
-          "location": taskLocation.text,
-          "description": taskDescription.text,
-          "date": taskTime.text,
-          "progress": "Upcoming",
-          "assignedTo": taskAssignedTo.text,
-        });
-  }
-
   Task createdTask = new Task("", "", "", "", "", "");
 
   getItemAndNavigate(BuildContext context) {
-    Navigator.pop(context);
+    createdTask.name = taskName.text;
+    createdTask.date = taskTime.text;
+    createdTask.assignedTo = taskAssignedTo.text;
+    createdTask.description = taskDescription.text;
+    createdTask.location = taskLocation.text;
+    //createdTask.progress = taskName.text;
+
+    Navigator.pop(context, createdTask);
     //MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
@@ -55,7 +63,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
     return Scaffold(
         appBar: AppBar(
-            title: Text("Add New Task"),
+            title: Text("Edit Task"),
             centerTitle: true,
             backgroundColor: Colors.grey,
             automaticallyImplyLeading: true,
@@ -63,10 +71,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               key: Key("back-button"),
               icon: Icon(Icons.arrow_back_ios),
               color: color,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
-              },
+              onPressed: () {},
             )),
         body: Center(
           child: SingleChildScrollView(
@@ -120,18 +125,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(30.0),
                   ),
-                  key: Key("continue-button"),
+                  key: Key("submit-button"),
                   child: Text(
-                    "Add Task",
+                    "Submit",
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Montserrat',
                     ),
                   ),
-                  onPressed: () => {
-                    senddata(),
-                    getItemAndNavigate(context),
-                  },
+                  onPressed: () => getItemAndNavigate(context),
                   color: color,
                 ))
           ])),
