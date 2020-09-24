@@ -202,7 +202,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           caption: 'Delete',
                           color: Colors.red,
                           icon: Icons.delete,
-                          onTap: () {},
+                          //onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              listOfTasks.removeAt(index);
+                            });
+                          },
+                          //onTap: () => _showSnackBar('Delete'),
                         ),
                       ],
                       child: ListTile(
