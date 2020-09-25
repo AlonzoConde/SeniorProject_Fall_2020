@@ -10,6 +10,8 @@ import 'package:project_senior/screens/add_task_screen.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:project_senior/screens/search_screen.dart';
 
+import 'edit_task_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
 
@@ -22,7 +24,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-void _settingModalBottomSheet(context) {
+void _settingModalBottomSheet(context, List<dynamic> d, int index) {
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
@@ -32,11 +34,29 @@ void _settingModalBottomSheet(context) {
               new ListTile(
                   leading: new Icon(Icons.brightness_1, color: Colors.red),
                   title: new Text('Upcoming'),
-                  onTap: () => {}),
+                  onTap: () => {
+                        http.post(
+                            'https://paradisial-pointers.000webhostapp.com/update_data.php',
+                            body: {
+                              'progress': 'Upcoming',
+                              'id': d[index]['id'],
+                              'color': Colors.red.toString()
+                            }),
+                        Navigator.pop(context),
+                      }),
               new ListTile(
                 leading: new Icon(Icons.brightness_1, color: Colors.yellow),
                 title: new Text('In Progress'),
-                onTap: () => {},
+                onTap: () => {
+                  http.post(
+                      'https://paradisial-pointers.000webhostapp.com/update_data.php',
+                      body: {
+                        'progress': 'In Progress',
+                        'id': d[index]['id'],
+                        'color': Colors.yellow.toString()
+                      }),
+                  Navigator.pop(context),
+                },
               ),
               new ListTile(
                 leading: new Icon(
@@ -44,26 +64,21 @@ void _settingModalBottomSheet(context) {
                   color: Colors.green,
                 ),
                 title: new Text('Completed'),
-                onTap: () => {},
+                onTap: () => {
+                  http.post(
+                      'https://paradisial-pointers.000webhostapp.com/update_data.php',
+                      body: {
+                        'progress': 'Completed',
+                        'id': d[index]['id'],
+                        'color': Colors.green.toString()
+                      }),
+                  Navigator.pop(context),
+                },
               ),
             ],
           ),
         );
       });
-}
-
-List<Task> deserializeJSONTaskList(String json) {
-  print(jsonDecode(json));
-  List listOfMaps = jsonDecode(json);
-
-  List listOfTasks = [];
-  listOfMaps.forEach((map) {
-    Task tmp = Task.fromJson(map);
-    print(tmp.name);
-    listOfTasks.add(tmp);
-  });
-
-  return listOfTasks;
 }
 
 // String(Task x) {
@@ -120,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // } else if (searchButton && addTaskButton) {
     //   __addTaskButton = null;
     // }
-    const color = const Color(0xFF4C748B);
+    Color _progressColor;
 
     return Scaffold(
         body: Center(
@@ -137,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 30,
-                color: color,
+                // color: color,
               ),
               key: Key('home-screen'),
             ),
@@ -189,14 +204,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           caption: 'More',
                           color: Colors.black45,
                           icon: Icons.more_horiz,
-                          onTap: () {},
-                          //onTap: () => SnackBar(content: Text('More')),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditTaskScreen(data[index]['id'])));
+                          },
                         ),
                         IconSlideAction(
                           caption: 'Archive',
                           color: Colors.blueGrey,
                           icon: Icons.archive,
-                          onTap: () {},
+                          onTap: () {
+                            http.post(
+                                'https://paradisial-pointers.000webhostapp.com/update_data.php',
+                                body: {
+                                  'progress': 'Completed',
+                                  'id': data[index]['id'],
+                                  'color': Colors.red,
+                                });
+                          },
                           //onTap: () => _showSnackBar('Delete'),
                         ),
                         IconSlideAction(
@@ -211,6 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               http.post(url, body: {
                                 'id': data[index]['id'],
                               });
+                              data.removeAt(index);
                             });
                           },
                           //onTap: () => _showSnackBar('Delete'),
@@ -222,8 +251,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         subtitle: Text(data[index]['date']),
                         trailing: IconButton(
                           icon: Icon(Icons.brightness_1),
-                          color: Colors.red,
-                          onPressed: () {},
+                          color: Colors.red, //data[index]['color'],
+                          onPressed: () {
+                            _settingModalBottomSheet(context, data, index);
+                            setState(() {});
+                          },
                         ),
                       ));
                 }),

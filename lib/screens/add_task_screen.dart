@@ -18,6 +18,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   TextEditingController taskAssignedTo = TextEditingController();
   TextEditingController taskDescription = TextEditingController();
   TextEditingController taskLocation = TextEditingController();
+  TextEditingController taskColor = TextEditingController();
+
   //TextEditingController taskProgress = TextEditingController();
 
   Future<List> senddata() async {
@@ -30,6 +32,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           "date": taskTime.text,
           "progress": "Upcoming",
           "assignedTo": taskAssignedTo.text,
+          "color": Colors.red,
         });
   }
 

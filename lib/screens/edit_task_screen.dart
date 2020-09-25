@@ -6,7 +6,7 @@ import 'package:project_senior/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class EditTaskScreen extends StatefulWidget {
-  EditTaskScreen({Key key, this.title}) : super(key: key);
+  EditTaskScreen(String id, {Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -28,8 +28,9 @@ class _EditTaskScreen extends State<EditTaskScreen> {
             leading: IconButton(
               key: Key("back-button"),
               icon: Icon(Icons.arrow_back_ios),
-              // color: color,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             )),
         body: Center(
             child: SingleChildScrollView(
