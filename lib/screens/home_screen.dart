@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:project_senior/models/task.dart';
 
 import 'package:project_senior/screens/add_task_screen.dart';
@@ -205,7 +206,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           //onTap: () {},
                           onTap: () {
                             setState(() {
-                              listOfTasks.removeAt(index);
+                              var url =
+                                  'https://paradisial-pointers.000webhostapp.com/remove_data.php';
+                              http.post(url, body: {
+                                'id': data[index]['id'],
+                              });
                             });
                           },
                           //onTap: () => _showSnackBar('Delete'),
@@ -218,9 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         trailing: IconButton(
                           icon: Icon(Icons.brightness_1),
                           color: Colors.red,
-                          onPressed: () {
-                            _settingModalBottomSheet(context);
-                          },
+                          onPressed: () {},
                         ),
                       ));
                 }),
