@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:project_senior/models/task.dart';
 
@@ -32,7 +34,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           "date": taskTime.text,
           "progress": "Upcoming",
           "assignedTo": taskAssignedTo.text,
-          "color": Colors.red,
         });
   }
 
@@ -133,11 +134,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                   onPressed: () => {
                     senddata(),
+                    getData(),
                     getItemAndNavigate(context),
                   },
                   color: color,
                 ))
           ])),
         ));
+  }
+
+  Future getData() async {
+    var url = 'https://paradisial-pointers.000webhostapp.com/fetch_data.php';
+    http.Response response = await http.get(url);
+    var d = jsonDecode(response.body);
+    print(d.toString());
   }
 }

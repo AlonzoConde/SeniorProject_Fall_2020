@@ -13,12 +13,8 @@ import 'package:project_senior/screens/search_screen.dart';
 import 'edit_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.title}) : super(key: key);
-
-  List<Task> listOfTasks;
-
-  //This should be modified to take in a HangmanGame
-  final String title;
+  // final int userID; //if you have multiple values add here
+  HomeScreen({Key key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -40,7 +36,6 @@ void _settingModalBottomSheet(context, List<dynamic> d, int index) {
                             body: {
                               'progress': 'Upcoming',
                               'id': d[index]['id'],
-                              'color': Colors.red.toString()
                             }),
                         Navigator.pop(context),
                       }),
@@ -53,7 +48,6 @@ void _settingModalBottomSheet(context, List<dynamic> d, int index) {
                       body: {
                         'progress': 'In Progress',
                         'id': d[index]['id'],
-                        'color': Colors.yellow.toString()
                       }),
                   Navigator.pop(context),
                 },
@@ -70,7 +64,6 @@ void _settingModalBottomSheet(context, List<dynamic> d, int index) {
                       body: {
                         'progress': 'Completed',
                         'id': d[index]['id'],
-                        'color': Colors.green.toString()
                       }),
                   Navigator.pop(context),
                 },
@@ -80,20 +73,6 @@ void _settingModalBottomSheet(context, List<dynamic> d, int index) {
         );
       });
 }
-
-// String(Task x) {
-//   var response = "";
-//   if (x.progress == "Upcoming") {
-//     response
-//   } else if (x.progress == "In Progess") {
-
-//   } else {
-
-//   }
-//   return response;
-// }
-
-void loadFromFileSystem() {}
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Task> listOfTasks;
@@ -112,8 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getData();
     fetchData();
+    getData();
     super.initState();
   }
 
@@ -135,7 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // } else if (searchButton && addTaskButton) {
     //   __addTaskButton = null;
     // }
-    Color _progressColor;
 
     return Scaffold(
         body: Center(
@@ -202,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       secondaryActions: <Widget>[
                         IconSlideAction(
                           caption: 'More',
-                          color: Colors.black45,
+                          color: Colors.black,
                           icon: Icons.more_horiz,
                           onTap: () {
                             Navigator.push(
@@ -222,7 +200,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 body: {
                                   'progress': 'Completed',
                                   'id': data[index]['id'],
-                                  'color': Colors.red,
                                 });
                           },
                           //onTap: () => _showSnackBar('Delete'),

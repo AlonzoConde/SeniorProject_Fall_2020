@@ -206,7 +206,7 @@ class _EditTaskScreen extends State<EditTaskScreen> {
             ),
           ],
           //currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
+          selectedItemColor: Colors.red,
           //onTap: _onItemTapped,
         ));
   }
