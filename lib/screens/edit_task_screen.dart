@@ -16,7 +16,7 @@ class EditTaskScreen extends StatefulWidget {
 
 class _EditTaskScreen extends State<EditTaskScreen> {
   // int _counter = 0;
-
+  DateTime _dateTime;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,11 +129,30 @@ class _EditTaskScreen extends State<EditTaskScreen> {
                                   IconButton(
                                       icon: Icon(Icons.edit),
                                       iconSize: 20,
-                                      onPressed: () async {}),
+                                      onPressed: () async {
+                                        showDatePicker(
+                                                context: context,
+                                                initialDate: _dateTime == null
+                                                    ? DateTime.now()
+                                                    : _dateTime,
+                                                firstDate: DateTime(2019),
+                                                lastDate: DateTime(2021))
+                                            .then((date) {
+                                          setState(() {
+                                            _dateTime = date;
+                                          });
+                                        });
+                                      }),
                                 ],
                               ),
                               Container(
-                                child: Text("Upcoming//"),
+                                child: Text(_dateTime == null
+                                    ? 'Select a date'
+                                    : _dateTime.day.toString() +
+                                        '/' +
+                                        _dateTime.month.toString() +
+                                        '/' +
+                                        _dateTime.year.toString()),
                               ),
                             ],
                           ),
@@ -157,11 +176,15 @@ class _EditTaskScreen extends State<EditTaskScreen> {
                             IconButton(
                                 icon: Icon(Icons.edit),
                                 iconSize: 20,
-                                onPressed: () async {}),
+                                onPressed: () async {
+                                  _description();
+                                }),
                           ],
                         ),
                         Container(
                           child: Text("Actual Desccription of the Task"),
+                        
+                        
                         ),
                       ],
                     )),
@@ -210,4 +233,13 @@ class _EditTaskScreen extends State<EditTaskScreen> {
           //onTap: _onItemTapped,
         ));
   }
+}
+
+_description() {
+  TextField(
+//controller: taskDescription,
+      decoration: InputDecoration(
+    border: OutlineInputBorder(),
+    //labelText: 'Description (Optional)',
+  ));
 }

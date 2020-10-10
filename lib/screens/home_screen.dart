@@ -115,13 +115,40 @@ class _HomeScreenState extends State<HomeScreen> {
     //   __addTaskButton = null;
     // }
 
-    return Scaffold(
+    return Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Colors.greenAccent, Colors.lightGreen],
+                   // stops: [0.1, 0.4, 0.7, 0.9],
+                  ),
+                ),
+              
+           child:  Scaffold( 
+      backgroundColor: Colors.transparent,
         body: Center(
+
+
+          
       child: Column(
+        
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
+        
         children: [
+           Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Colors.tealAccent[400], Colors.lightBlueAccent],
+                   // stops: [0.1, 0.4, 0.7, 0.9],
+                  ),
+                ),
+              ),
           Row(children: [
+            
             Padding(
               padding: EdgeInsets.fromLTRB(1, 90, 20, 40),
             ),
@@ -134,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               key: Key('home-screen'),
             ),
+            
             Padding(
               padding: EdgeInsets.fromLTRB(190, 90, 0, 40),
             ),
@@ -170,7 +198,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ]),
           Expanded(
+            
             child: ListView.builder(
+              
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Slidable(
@@ -190,6 +220,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         EditTaskScreen(data[index]['id'])));
                           },
                         ),
+                       
+                       
                         IconSlideAction(
                           caption: 'Archive',
                           color: Colors.blueGrey,
@@ -266,8 +298,8 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-    ));
-  }
+    ))
+    );}
 
   Future getData() async {
     var url = 'https://paradisial-pointers.000webhostapp.com/fetch_data.php';
