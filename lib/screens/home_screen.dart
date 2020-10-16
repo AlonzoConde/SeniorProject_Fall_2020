@@ -98,208 +98,186 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if button == true
-    // if (addTaskButton) {
-    //   __addTaskButton = () {
-    //     //dripFrench = true;
-    //     Navigator.push(
-    //         context, MaterialPageRoute(builder: (context) => AddTaskScreen()));
-    //   };
-    // } else if (searchButton) {
-    //   _searchButton = () {
-    //     //dripFrench = false;
-    //     Navigator.push(
-    //         context, MaterialPageRoute(builder: (context) => AddTaskScreen()));
-    //   };
-    // } else if (searchButton && addTaskButton) {
-    //   __addTaskButton = null;
-    // }
-
     return Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Colors.greenAccent, Colors.lightGreen],
-                   // stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
-              
-           child:  Scaffold( 
-      backgroundColor: Colors.transparent,
-        body: Center(
-
-
-          
-      child: Column(
-        
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        
-        children: [
-           Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Colors.tealAccent[400], Colors.lightBlueAccent],
-                   // stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
-              ),
-          Row(children: [
-            
-            Padding(
-              padding: EdgeInsets.fromLTRB(1, 90, 20, 40),
-            ),
-            Text(
-              "Home",
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 30,
-                // color: color,
-              ),
-              key: Key('home-screen'),
-            ),
-            
-            Padding(
-              padding: EdgeInsets.fromLTRB(190, 90, 0, 40),
-            ),
-            IconButton(
-              icon: Icon(Icons.search),
-              iconSize: 40,
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
-                )
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(5, 90, 0, 40),
-            ),
-            IconButton(
-              icon: Icon(Icons.add_circle_outline),
-              iconSize: 40,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AddTaskScreen()),
-                );
-                // Task t = Task(y.name, y.date, y.location, y.assignedTo,
-                //     y.description, "Upcoming");
-
-                // print(y.name);
-                // //add it to the list of tasks
-                // listOfTasks.add(t);
-                // setState(() {});
-                print(data.length);
-              },
-            ),
-          ]),
-          Expanded(
-            
-            child: ListView.builder(
-              
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Slidable(
-                      actionPane: SlidableDrawerActionPane(),
-                      actionExtentRatio: 0.25,
-                      actions: <Widget>[],
-                      secondaryActions: <Widget>[
-                        IconSlideAction(
-                          caption: 'More',
-                          color: Colors.black,
-                          icon: Icons.more_horiz,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditTaskScreen(data[index]['id'])));
-                          },
-                        ),
-                       
-                       
-                        IconSlideAction(
-                          caption: 'Archive',
-                          color: Colors.blueGrey,
-                          icon: Icons.archive,
-                          onTap: () {
-                            http.post(
-                                'https://paradisial-pointers.000webhostapp.com/update_data.php',
-                                body: {
-                                  'progress': 'Completed',
-                                  'id': data[index]['id'],
-                                });
-                          },
-                          //onTap: () => _showSnackBar('Delete'),
-                        ),
-                        IconSlideAction(
-                          caption: 'Delete',
-                          color: Colors.red,
-                          icon: Icons.delete,
-                          //onTap: () {},
-                          onTap: () {
-                            setState(() {
-                              var url =
-                                  'https://paradisial-pointers.000webhostapp.com/remove_data.php';
-                              http.post(url, body: {
-                                'id': data[index]['id'],
-                              });
-                              data.removeAt(index);
-                            });
-                          },
-                          //onTap: () => _showSnackBar('Delete'),
-                        ),
-                      ],
-                      child: ListTile(
-                        key: Key(data[index]['name']),
-                        title: Text(data[index]['name']),
-                        subtitle: Text(data[index]['date']),
-                        trailing: IconButton(
-                          icon: Icon(Icons.brightness_1),
-                          color: Colors.red, //data[index]['color'],
-                          onPressed: () {
-                            _settingModalBottomSheet(context, data, index);
-                            setState(() {});
-                          },
-                        ),
-                      ));
-                }),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Colors.greenAccent, Colors.lightGreen],
+            // stops: [0.1, 0.4, 0.7, 0.9],
           ),
-          Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border(
-              top: BorderSide(width: 2, color: Colors.black),
-              bottom: BorderSide(width: 2, color: Colors.black),
-            )),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: BottomNavigationBar(items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    title: Text("Home"),
-                    backgroundColor: Colors.grey,
+        ),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Colors.tealAccent[400],
+                          Colors.lightBlueAccent
+                        ],
+                        // stops: [0.1, 0.4, 0.7, 0.9],
+                      ),
+                    ),
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.people),
-                    title: Text("Teams"),
-                    backgroundColor: Colors.grey,
+                  Row(children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(1, 90, 20, 40),
+                    ),
+                    Text(
+                      "Home",
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 30,
+                        // color: color,
+                      ),
+                      key: Key('home-screen'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(190, 90, 0, 40),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      iconSize: 40,
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchScreen()),
+                        )
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(5, 90, 0, 40),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add_circle_outline),
+                      iconSize: 40,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddTaskScreen()),
+                        );
+                        // Task t = Task(y.name, y.date, y.location, y.assignedTo,
+                        //     y.description, "Upcoming");
+
+                        // print(y.name);
+                        // //add it to the list of tasks
+                        // listOfTasks.add(t);
+                        // setState(() {});
+                        print(data.length);
+                      },
+                    ),
+                  ]),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Slidable(
+                              actionPane: SlidableDrawerActionPane(),
+                              actionExtentRatio: 0.25,
+                              actions: <Widget>[],
+                              secondaryActions: <Widget>[
+                                IconSlideAction(
+                                  caption: 'More',
+                                  color: Colors.black,
+                                  icon: Icons.more_horiz,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditTaskScreen(
+                                                    data[index]['id'])));
+                                  },
+                                ),
+                                IconSlideAction(
+                                  caption: 'Archive',
+                                  color: Colors.blueGrey,
+                                  icon: Icons.archive,
+                                  onTap: () {
+                                    http.post(
+                                        'https://paradisial-pointers.000webhostapp.com/update_data.php',
+                                        body: {
+                                          'progress': 'Completed',
+                                          'id': data[index]['id'],
+                                        });
+                                  },
+                                  //onTap: () => _showSnackBar('Delete'),
+                                ),
+                                IconSlideAction(
+                                  caption: 'Delete',
+                                  color: Colors.red,
+                                  icon: Icons.delete,
+                                  //onTap: () {},
+                                  onTap: () {
+                                    setState(() {
+                                      var url =
+                                          'https://paradisial-pointers.000webhostapp.com/remove_data.php';
+                                      http.post(url, body: {
+                                        'id': data[index]['id'],
+                                      });
+                                      data.removeAt(index);
+                                    });
+                                  },
+                                  //onTap: () => _showSnackBar('Delete'),
+                                ),
+                              ],
+                              child: ListTile(
+                                key: Key(data[index]['name']),
+                                title: Text(data[index]['name']),
+                                subtitle: Text(data[index]['date']),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.brightness_1),
+                                  color: Colors.red, //data[index]['color'],
+                                  onPressed: () {
+                                    _settingModalBottomSheet(
+                                        context, data, index);
+                                    setState(() {});
+                                  },
+                                ),
+                              ));
+                        }),
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    title: Text("Person"),
-                    backgroundColor: Colors.grey,
-                  ),
-                ])),
-          )
-        ],
-      ),
-    ))
-    );}
+                  Container(
+                    height: 60,
+                    decoration: BoxDecoration(
+                        border: Border(
+                      top: BorderSide(width: 2, color: Colors.black),
+                      bottom: BorderSide(width: 2, color: Colors.black),
+                    )),
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: BottomNavigationBar(items: [
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.home),
+                            title: Text("Home"),
+                            backgroundColor: Colors.grey,
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.people),
+                            title: Text("Teams"),
+                            backgroundColor: Colors.grey,
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.person),
+                            title: Text("Person"),
+                            backgroundColor: Colors.grey,
+                          ),
+                        ])),
+                  )
+                ],
+              ),
+            )));
+  }
 
   Future getData() async {
     var url = 'https://paradisial-pointers.000webhostapp.com/fetch_data.php';

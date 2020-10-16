@@ -25,6 +25,13 @@ class _LoginScreenState extends State<LoginScreen> {
       "username": userName.text,
       "password": passWord.text,
     });
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    }
   }
 
   Widget _buildEmailTF() {
@@ -117,10 +124,6 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5.0,
         onPressed: () => {
           userLogin(),
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          )
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(

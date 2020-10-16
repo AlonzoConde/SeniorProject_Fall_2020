@@ -21,6 +21,14 @@ class _SignUpState extends State<SignUp> {
           "username": userName.text,
           "password": passWord.text,
         });
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      Navigator.pop(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
   }
 
   Widget _buildEmailTF() {
@@ -100,10 +108,6 @@ class _SignUpState extends State<SignUp> {
         elevation: 5.0,
         onPressed: () => {
           userSignUp(),
-          Navigator.pop(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-          )
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
