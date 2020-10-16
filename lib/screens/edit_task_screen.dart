@@ -32,7 +32,20 @@ class _EditTaskScreen extends State<EditTaskScreen> {
                 Navigator.pop(context);
               },
             )),
-        body: Center(
+        body: 
+        
+        
+        Container(decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [Colors.lightBlue[600], Colors.cyanAccent[400]],
+                     // stops: [0.1, 0.4, 0.7, 0.9],
+                    ),
+                  ),
+        
+        
+        child: Center(
             child: SingleChildScrollView(
                 child:
                     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -212,7 +225,7 @@ class _EditTaskScreen extends State<EditTaskScreen> {
               ),
             ]),
           ),
-        ]))),
+        ])))),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(

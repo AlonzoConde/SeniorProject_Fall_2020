@@ -34,6 +34,48 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Widget _buildtitle() {
+    
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0),
+      child: Container(
+      //  color: Colors.yellow,
+        height: 150,
+        width: 400,
+        child: Row(
+          children: <Widget>[
+
+          RotatedBox(
+          quarterTurns: -1,
+      
+          child: Text(
+            'Sign in', 
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 38,
+              fontWeight: FontWeight.w900,
+            ),
+          )),
+
+
+            Text('''
+      
+     Managed all of 
+     your tasks in 
+     one easy app!
+                ''',
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Colors.white,
+                ),
+              ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,15 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    _buildtitle(),
                       SizedBox(height: 30.0),
                       _buildEmailTF(),
                       SizedBox(

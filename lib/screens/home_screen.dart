@@ -103,8 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.greenAccent, Colors.lightGreen],
-            // stops: [0.1, 0.4, 0.7, 0.9],
+            colors: [Colors.lightBlue[300], Colors.blue[700]],
+            
           ),
         ),
         child: Scaffold(
